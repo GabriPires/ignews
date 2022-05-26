@@ -1,4 +1,7 @@
+import { useAllPrismicDocumentsByType } from '@prismicio/react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { client } from '../../services/prismic';
 import styles from './styles.module.scss';
 
 const Posts = () => {
@@ -49,3 +52,16 @@ const Posts = () => {
 };
 
 export default Posts;
+
+export const getStaticProps: GetStaticProps = async () => {
+  const posts = await client.getAllByType('post', {
+    fetch: ['post.title', 'post.content'],
+    pageSize: 100,
+  });
+
+  console.log({ posts });
+
+  return {
+    props: {},
+  };
+};

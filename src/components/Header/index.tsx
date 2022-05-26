@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { SignInButton } from '../SignInButton';
 
@@ -15,10 +16,12 @@ export const Header = () => {
           height={'100%'}
         />
         <nav>
-          <a href="/home" className={styles.active}>
-            Home
-          </a>
-          <a href="/posts">Posts</a>
+          <Link href="/">
+            <a className={styles.active}>Home</a>
+          </Link>
+          <Link href="/posts">
+            <a>Posts</a>
+          </Link>
         </nav>
 
         <SignInButton />
