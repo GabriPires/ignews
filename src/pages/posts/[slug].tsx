@@ -1,7 +1,10 @@
 import { GetServerSideProps } from 'next';
 import { getSession } from 'next-auth/react';
+import Head from 'next/head';
 import { RichText } from 'prismic-dom';
 import { prismicClient } from '../../services/prismic';
+
+import styles from './post.module.scss';
 
 interface PostPageProps {
   post: {
@@ -13,7 +16,24 @@ interface PostPageProps {
 }
 
 const Post = ({ post }: PostPageProps) => {
-  return <h1>Teste</h1>;
+  return (
+    <>
+      <Head>
+        <title>{post.title} | Ignews</title>
+      </Head>
+
+      <main className={styles.container}>
+        <article className={styles.post}>
+          <h1>{post.title}</h1>
+          <time>{post.updatedAt}</time>
+          <div
+            className={styles.postContent}
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          ></div>
+        </article>
+      </main>
+    </>
+  );
 };
 
 export default Post;
