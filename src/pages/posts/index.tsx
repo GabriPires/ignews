@@ -1,8 +1,8 @@
-import { useAllPrismicDocumentsByType } from '@prismicio/react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { RichText } from 'prismic-dom';
-import { client } from '../../services/prismic';
+import { prismicClient } from '../../services/prismic';
 import styles from './styles.module.scss';
 
 interface PostsProps {
@@ -26,11 +26,13 @@ const Posts = ({ posts }: PostsPageProps) => {
       <main className={styles.container}>
         <div className={styles.posts}>
           {posts.map((post) => (
-            <a href={'#'} key={post.slug}>
-              <time>{post.updatedAt}</time>
-              <strong>{post.title}</strong>
-              <p>{post.excerpt}</p>
-            </a>
+            <Link href={`/posts/${post.slug}`} key={post.slug}>
+              <a>
+                <time>{post.updatedAt}</time>
+                <strong>{post.title}</strong>
+                <p>{post.excerpt}</p>
+              </a>
+            </Link>
           ))}
         </div>
       </main>
@@ -41,7 +43,7 @@ const Posts = ({ posts }: PostsPageProps) => {
 export default Posts;
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await client.getAllByType('post', {
+  const response = await prismicClient.getAllByType('post', {
     fetch: ['post.title', 'post.content'],
     pageSize: 100,
   });
